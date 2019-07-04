@@ -8,7 +8,7 @@ typedef struct vertice
 {
 	int A;
 	int id;
-	int proximoID;
+	int paiID;
 } Vertice;
 
 int tamanhoMatriz(char *arquivo)
@@ -113,8 +113,28 @@ vertice retornaVertice(int id, vertice arr[], int n)
 	return arr[id];
 }
 
-void relax()
+void relax(vertice arr[], int id, int A, int n, int idPai, int APai)
+
 {
+	for (int j = 0; j < n; j++)
+	{
+		if (id == arr[j].id)
+		{
+			id = j;
+			break;
+		}
+	}
+	arr[id].A = A + APai;
+	arr[id].paiID = idPai;
+	while ((id > 0) && (arr[(id - 1) / 2].A > arr[id].A))
+	{
+
+		vertice trocar;
+		trocar = arr[(id - 1) / 2];
+		arr[(id - 1) / 2] = arr[id];
+		arr[id] = trocar;
+		id = (id - 1) / 2;
+	}
 }
 
 void dijkstra(void *x, int n, int inicio)
@@ -129,7 +149,7 @@ void dijkstra(void *x, int n, int inicio)
 	{
 		V[i].A = INFINITO;
 		V[i].id = i;
-		V[i].proximoID = -1;
+		V[i].paiID = -1;
 	}
 	//distancia do vertice inicial pra ele mesmo é 0
 	V[inicio].A = 0;
@@ -156,10 +176,16 @@ void dijkstra(void *x, int n, int inicio)
 		V[u.id] = u;
 		for (int i = 0; i < aux; i++)
 		{
-			if ((fila(i, Q, n)) && (matriz[u.id][i] + u.A < retornaVertice(i, Q, n).A))
+			// Se i for adjacente
+			if (matriz[u.id][i] != 0)
 			{
-				printf("relax");
+				if ((fila(i, Q, n)) && (matriz[u.id][i] + u.A < retornaVertice(i, Q, n).A))
+				{
+					relax(Q, i, matriz[u.id][i], n, u.id, u.A);
+				}
 			}
 		}
 	}
+
+	std::cout << "\nverticeID: " << V[aux - 1].id << " ;paiID: " << V[aux - 1].paiID << " ;A: " << V[aux - 1].A << std::endl;
 }
