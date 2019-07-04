@@ -2,14 +2,13 @@
 #include <fstream>
 using namespace std;
 
-#define INFINITO 214748364;
+#define INFINITO 2147483647; //valor maximo para uma variavel do tipo int
 
 typedef struct vertice
 {
 	int A;
 	int id;
 	int proximoID;
-	bool included;
 } Vertice;
 
 int tamanhoMatriz(char *arquivo)
@@ -90,30 +89,31 @@ void dijkstra(void *x, int n, int inicio)
 	// conversão para matriz de inteiros
 	int(*matriz)[n] = static_cast<int(*)[n]>(x);
 
-	Vertice V[n];
+	Vertice V[n]; 
 
-	//seta distancias para infinito
+	//seta distancias desconhecidas para infinito
 	for (int i = 0; i < n; i++)
 	{
 		V[i].A = INFINITO;
 		V[i].id = i;
 		V[i].proximoID = -1;
 	}
+	//distancia do vertice inicial pra ele mesmo é 0
 	V[inicio].A = 0;
-	V[inicio].included = true;
+	
 	//inicia nó na fila de prioridade
 	Vertice Q[n];
-	
 	for (int i = 0; i < n; i++)
 	{
 		Q[i] = V[i];
-		
 	}
 
 	build_min_Heap(Q, n);
 
 	/* for (int i = 0; i < n; i++)
 	{
-		printf("ordenação v %d , chave: %d\n", Q[i].id,Q[i].A);
+		printf("ordenação %d , chave: %d\n", Q[i].id,Q[i].A);
 	}*/
+
+
 }
