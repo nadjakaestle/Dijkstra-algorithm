@@ -13,6 +13,8 @@ int main()
 	printf("Tamanho da matriz: %d\n", n);
 
 	popularMatriz(ENTRADA, n, matriz);	
-
+	 
+	dijkstra(matriz, n, 0);
+	
 	return 0;
 }
