@@ -48,7 +48,7 @@ int filhoDireita(int i)
 	return 2 * i + 2;
 };
 
-void minHeapify(vertice *arr, int i, int tamanho_heap)
+void minHeapify(Vertice *arr, int i, int tamanho_heap)
 {
 	int esquerda = filhoEsquerda(i);
 	int direita = filhoDireita(i);
