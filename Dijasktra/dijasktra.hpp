@@ -5,8 +5,7 @@ using namespace std;
 typedef struct vertice
 {
 	int *A;
-}Vertice;
-
+} Vertice;
 
 int tamanhoMatriz(char *arquivo)
 {
@@ -74,4 +73,9 @@ void minHeapify(Vertice *arr, int i, int tamanho_heap)
 
 		minHeapify(arr, menor, tamanho_heap);
 	}
+}
+void build_min_Heap(Vertice arr[], int tamanho_heap)
+{
+	for (int i = (tamanho_heap-1) / 2; i >= 0; i--)
+		minHeapify(arr, i, tamanho_heap-1);
 }
