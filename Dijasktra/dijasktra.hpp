@@ -84,12 +84,45 @@ void build_min_Heap(Vertice arr[], int tamanho_heap)
 		minHeapify(arr, i, tamanho_heap - 1);
 }
 
+Vertice extrairMin(Vertice arr[], int *tamanho_heap)
+{
+	vertice minimo = arr[0];
+	arr[0] = arr[*tamanho_heap - 1];
+	*tamanho_heap = *tamanho_heap - 1;
+	minHeapify(arr, 0, *tamanho_heap);
+
+	return minimo;
+}
+
+bool fila(int id, vertice arr[], int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		if (id == arr[i].id)
+			return true;
+	}
+	return false;
+}
+vertice retornaVertice(int id, vertice arr[], int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		if (id == arr[i].id)
+			return arr[id];
+	}
+	return arr[id];
+}
+
+void relax()
+{
+}
+
 void dijkstra(void *x, int n, int inicio)
 {
 	// conversão para matriz de inteiros
 	int(*matriz)[n] = static_cast<int(*)[n]>(x);
 
-	Vertice V[n]; 
+	Vertice V[n];
 
 	//seta distancias desconhecidas para infinito
 	for (int i = 0; i < n; i++)
@@ -100,7 +133,7 @@ void dijkstra(void *x, int n, int inicio)
 	}
 	//distancia do vertice inicial pra ele mesmo é 0
 	V[inicio].A = 0;
-	
+
 	//inicia nó na fila de prioridade
 	Vertice Q[n];
 	for (int i = 0; i < n; i++)
@@ -115,5 +148,18 @@ void dijkstra(void *x, int n, int inicio)
 		printf("ordenação %d , chave: %d\n", Q[i].id,Q[i].A);
 	}*/
 
-
+	// verifica se a fila de prioriadade não está vazia
+	int aux = n;
+	while (n > 0)
+	{
+		Vertice u = extrairMin(Q, &n);
+		V[u.id] = u;
+		for (int i = 0; i < aux; i++)
+		{
+			if ((fila(i, Q, n)) && (matriz[u.id][i] + u.A < retornaVertice(i, Q, n).A))
+			{
+				printf("relax");
+			}
+		}
+	}
 }
